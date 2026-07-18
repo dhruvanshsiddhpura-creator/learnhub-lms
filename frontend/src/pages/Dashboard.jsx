@@ -91,16 +91,16 @@ const Dashboard = () => {
   const [createLoading, setCreateLoading] = useState(false);
   const { addToast } = useToast();
   const [isBrandTheme, setIsBrandTheme] = useState(() => {
-    return localStorage.getItem('theme') === 'brand';
+    return localStorage.getItem('learnhub-theme') === 'brand';
   });
 
   useEffect(() => {
     if (isBrandTheme) {
-      document.body.classList.add('brand-theme');
-      localStorage.setItem('theme', 'brand');
+      document.documentElement.classList.add('learnhub-theme');
+      localStorage.setItem('learnhub-theme', 'brand');
     } else {
-      document.body.classList.remove('brand-theme');
-      localStorage.setItem('theme', 'default');
+      document.documentElement.classList.remove('learnhub-theme');
+      localStorage.setItem('learnhub-theme', 'default');
     }
   }, [isBrandTheme]);
 
