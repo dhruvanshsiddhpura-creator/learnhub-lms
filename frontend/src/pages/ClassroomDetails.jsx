@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth, api } from '../context/AuthContext';
 import {
   useClassroomDetailsQuery,
   useUpdateClassroomMutation,
@@ -113,6 +113,52 @@ const ClassroomDetails = () => {
   const triggerAlert = (message, type = 'success') => {
     setAlert({ show: true, message, type });
     setTimeout(() => setAlert({ show: false, message: '', type: 'success' }), 4000);
+  };
+
+  // Attendance State
+  const [attendanceDate, setAttendanceDate] = useState(new Date().toISOString().split('T')[0]);
+  const [attendanceRecords, setAttendanceRecords] = useState([]);
+  const [attendanceLoading, setAttendanceLoading] = useState(false);
+
+  const fetchAttendance = async (date) => {
+    if (!isTeacher) return;
+    setAttendanceLoading(true);
+    try {
+      const res = await api.get(`/classrooms/${id}/attendance?date=${date}`);
+      // res.data.students contains all students, res.data.attendances contains records
+      const initialRecords = res.data.students.map(student => {
+        const existing = res.data.attendances.find(a => a.studentId === student.id);
+        return {
+          studentId: student.id,
+          student: student,
+          status: existing ? existing.status : 'PRESENT' // default to present if no record
+        };
+      });
+      setAttendanceRecords(initialRecords);
+    } catch (err) {
+      triggerAlert('Failed to load attendance', 'error');
+    } finally {
+      setAttendanceLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeSubTab === 'attendance') {
+      fetchAttendance(attendanceDate);
+    }
+  }, [activeSubTab, attendanceDate]);
+
+  const handleSaveAttendance = async () => {
+    setCreateLoading(true);
+    try {
+      const recordsToSave = attendanceRecords.map(r => ({ studentId: r.studentId, status: r.status }));
+      await api.post(`/classrooms/${id}/attendance`, { date: attendanceDate, records: recordsToSave });
+      triggerAlert('Attendance saved successfully!');
+    } catch (err) {
+      triggerAlert('Failed to save attendance', 'error');
+    } finally {
+      setCreateLoading(false);
+    }
   };
 
   // Resume progress mapping inside active video player
@@ -521,6 +567,16 @@ const ClassroomDetails = () => {
             >
               Class Roster
             </button>
+            {isTeacher && (
+              <button
+                onClick={() => { setActiveSubTab('attendance'); setSearchQuery(''); }}
+                className={`pb-3 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all ${
+                  activeSubTab === 'attendance' ? 'border-primary-500 text-white' : 'border-transparent text-dark-400 hover:text-white'
+                }`}
+              >
+                Attendance
+              </button>
+            )}
             <button
               onClick={() => { setActiveSubTab('materials'); setSearchQuery(''); }}
               className={`pb-3 px-3 text-xs sm:text-sm font-bold border-b-2 transition-all ${
@@ -646,6 +702,93 @@ const ClassroomDetails = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* TABS 1.5: ATTENDANCE VIEW (TEACHERS ONLY) */}
+        {activeSubTab === 'attendance' && isTeacher && (
+          <section className="space-y-4 animate-fade-in">
+            <div className="flex justify-between items-center bg-dark-900/50 p-4 rounded-xl border border-dark-800">
+              <div className="flex items-center gap-4">
+                <div>
+                  <label className="text-xs font-bold text-dark-400 uppercase tracking-widest block mb-1">Date</label>
+                  <input 
+                    type="date" 
+                    value={attendanceDate}
+                    onChange={(e) => setAttendanceDate(e.target.value)}
+                    className="glass-input px-3 py-1.5 rounded-lg text-sm text-white"
+                  />
+                </div>
+              </div>
+              <button 
+                onClick={handleSaveAttendance}
+                disabled={createLoading}
+                className="bg-primary-600 hover:bg-primary-700 text-white font-semibold text-xs px-4 py-2 rounded-xl flex items-center gap-2 transition-all disabled:opacity-50"
+              >
+                <Check size={14} />
+                {createLoading ? 'Saving...' : 'Save Attendance'}
+              </button>
+            </div>
+
+            {attendanceLoading ? (
+              <div className="text-center p-8 text-dark-400 animate-pulse">Loading attendance records...</div>
+            ) : attendanceRecords.length === 0 ? (
+              <div className="glass-panel p-12 rounded-xl text-center text-dark-400">No students enrolled.</div>
+            ) : (
+              <div className="bg-dark-900/30 rounded-xl border border-dark-800 overflow-hidden">
+                <table className="w-full text-left text-sm">
+                  <thead className="bg-dark-900/80 border-b border-dark-800 text-xs font-bold text-dark-400 uppercase tracking-wider">
+                    <tr>
+                      <th className="px-6 py-4">Student</th>
+                      <th className="px-6 py-4 w-64 text-center">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-dark-800">
+                    {attendanceRecords.map((record, idx) => (
+                      <tr key={record.studentId} className="hover:bg-dark-850/50 transition-colors">
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <img src={record.student.avatar} alt="avatar" className="w-8 h-8 rounded-full border border-dark-700" />
+                            <div>
+                              <div className="font-semibold text-white">{record.student.name}</div>
+                              <div className="text-xs text-dark-400">{record.student.email}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex items-center justify-center bg-dark-950 p-1 rounded-lg border border-dark-800">
+                            <button
+                              onClick={() => {
+                                const newRecords = [...attendanceRecords];
+                                newRecords[idx].status = 'PRESENT';
+                                setAttendanceRecords(newRecords);
+                              }}
+                              className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${
+                                record.status === 'PRESENT' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shadow-sm' : 'text-dark-400 hover:text-white'
+                              }`}
+                            >
+                              Present
+                            </button>
+                            <button
+                              onClick={() => {
+                                const newRecords = [...attendanceRecords];
+                                newRecords[idx].status = 'ABSENT';
+                                setAttendanceRecords(newRecords);
+                              }}
+                              className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${
+                                record.status === 'ABSENT' ? 'bg-red-500/20 text-red-400 border border-red-500/30 shadow-sm' : 'text-dark-400 hover:text-white'
+                              }`}
+                            >
+                              Absent
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </section>

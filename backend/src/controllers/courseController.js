@@ -209,11 +209,17 @@ export const getStats = async (req, res) => {
 
       const uniqueCategories = new Set(enrolledCourses.map((c) => c.category)).size;
 
+      const videoProgresses = await prisma.videoProgress.findMany({
+        where: { studentId: userId },
+      });
+      const totalSeconds = videoProgresses.reduce((acc, vp) => acc + (vp.progressSeconds || 0), 0);
+      const studyHours = Math.round(totalSeconds / 3600) || 0;
+
       res.json({
         enrolledCount: enrollmentsCount,
         categoryCount: uniqueCategories,
-        studyHours: Math.round(enrollmentsCount * 4.5), // Mock metric
-        completedCount: Math.round(enrollmentsCount * 0.4), // Mock metric
+        studyHours: studyHours,
+        completedCount: Math.round(enrollmentsCount * 0.4), // Keep mock for now since full course completion tracking isn't clear
       });
     } else if (role === 'TEACHER') {
       const coursesCount = await prisma.course.count({

@@ -55,6 +55,9 @@ router.get(
   (req, res, next) => {
     passport.authenticate('facebook', { session: false }, (err, user, info) => {
       if (err) {
+        if (err.message && err.message.includes('authorization code has been used')) {
+          return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/login?error=Browser sent duplicate request. Please try Facebook login again.`);
+        }
         // Send the exact internal OAuth error to the browser so we can debug it
         console.error("FACEBOOK OAUTH ERROR:", err);
         return res.status(400).json({ 

@@ -93,9 +93,14 @@ export const getAnalytics = async (req, res) => {
       const progress = totalAssignments === 0 ? 100 : Math.round((completedAssignments / totalAssignments) * 100);
       const pendingAssignments = totalAssignments - completedAssignments;
 
-      // Mock attendance for now
-      const attendancePercentage = 85 + Math.floor(Math.random() * 10);
-
+      const attendanceRecords = await prisma.attendance.findMany({
+        where: { studentId: userId }
+      });
+      let attendancePercentage = 100;
+      if (attendanceRecords.length > 0) {
+        const presentCount = attendanceRecords.filter(a => a.status === 'PRESENT').length;
+        attendancePercentage = Math.round((presentCount / attendanceRecords.length) * 100);
+      }
       res.json({
         success: true,
         data: {

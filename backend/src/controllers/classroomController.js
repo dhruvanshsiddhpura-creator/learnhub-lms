@@ -330,3 +330,103 @@ export const leaveClassroom = async (req, res) => {
     res.status(500).json({ message: 'Error leaving classroom' });
   }
 };
+
+// @desc    Get attendance for a specific date
+// @route   GET /api/classrooms/:id/attendance?date=YYYY-MM-DD
+// @access  Private (TEACHER)
+export const getAttendance = async (req, res) => {
+  const classroomId = req.params.id;
+  const { date } = req.query;
+
+  try {
+    const classroom = await prisma.classroom.findUnique({
+      where: { id: classroomId },
+      include: {
+        enrollments: {
+          include: {
+            student: {
+              select: { id: true, name: true, avatar: true, email: true }
+            }
+          }
+        }
+      }
+    });
+
+    if (!classroom) return res.status(404).json({ message: 'Classroom not found' });
+    if (classroom.teacherId !== req.user.id) return res.status(403).json({ message: 'Not authorized' });
+
+    // Parse date (default to today if not provided)
+    let targetDate = new Date();
+    if (date) {
+      targetDate = new Date(date);
+    }
+    // Set time to start of day for precise querying
+    targetDate.setHours(0, 0, 0, 0);
+    const nextDate = new Date(targetDate);
+    nextDate.setDate(targetDate.getDate() + 1);
+
+    const attendances = await prisma.attendance.findMany({
+      where: {
+        classroomId,
+        date: {
+          gte: targetDate,
+          lt: nextDate,
+        }
+      }
+    });
+
+    const students = classroom.enrollments.map(e => e.student);
+    
+    res.json({ students, attendances, date: targetDate.toISOString() });
+  } catch (error) {
+    console.error('Error fetching attendance:', error);
+    res.status(500).json({ message: 'Error fetching attendance' });
+  }
+};
+
+// @desc    Mark attendance for multiple students
+// @route   POST /api/classrooms/:id/attendance
+// @access  Private (TEACHER)
+export const markAttendance = async (req, res) => {
+  const classroomId = req.params.id;
+  const { date, records } = req.body; // records = [{ studentId, status: 'PRESENT' | 'ABSENT' }]
+
+  try {
+    const classroom = await prisma.classroom.findUnique({ where: { id: classroomId } });
+    if (!classroom || classroom.teacherId !== req.user.id) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    const targetDate = new Date(date);
+    targetDate.setHours(0, 0, 0, 0);
+
+    // Upsert all records using a transaction
+    const upserts = records.map(record => {
+      return prisma.attendance.upsert({
+        where: {
+          studentId_classroomId_date: {
+            studentId: record.studentId,
+            classroomId,
+            date: targetDate,
+          }
+        },
+        update: {
+          status: record.status,
+        },
+        create: {
+          studentId: record.studentId,
+          classroomId,
+          date: targetDate,
+          status: record.status,
+        }
+      });
+    });
+
+    await prisma.$transaction(upserts);
+
+    res.json({ message: 'Attendance saved successfully' });
+  } catch (error) {
+    console.error('Error saving attendance:', error);
+    res.status(500).json({ message: 'Error saving attendance' });
+  }
+};
