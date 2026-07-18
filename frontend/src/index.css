@@ -85,7 +85,7 @@
   --scrollbar-thumb-hover: #98bdff;
 
   /* Overrides for hardcoded white text in light theme */
-  & :where(h1, h2, h3, h4, p, label, div, .glass-input).text-white:not(.bg-primary-600):not(.bg-indigo-600):not(.bg-emerald-600):not(.bg-gradient-brand):not(button) {
+  & :where(h1, h2, h3, h4, p, span, label, div, .glass-input).text-white:not(.bg-primary-600):not(.bg-indigo-600):not(.bg-emerald-600):not(.bg-gradient-brand):not(button) {
     color: var(--theme-dark-50) !important;
   }
   
