@@ -52,7 +52,24 @@ router.get(
 router.get('/facebook', passport.authenticate('facebook', { scope: ['email'], session: false }));
 router.get(
   '/facebook/callback',
-  passport.authenticate('facebook', { session: false, failureRedirect: `${process.env.CLIENT_URL || 'http://localhost:5173'}/login?error=Facebook authentication failed` }),
+  (req, res, next) => {
+    passport.authenticate('facebook', { session: false }, (err, user, info) => {
+      if (err) {
+        // Send the exact internal OAuth error to the browser so we can debug it
+        console.error("FACEBOOK OAUTH ERROR:", err);
+        return res.status(400).json({ 
+          error: "Facebook Login Failed", 
+          details: err.message || err.toString(),
+          oauthError: err.oauthError || null
+        });
+      }
+      if (!user) {
+        return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/login?error=Facebook authentication failed`);
+      }
+      req.user = user;
+      next();
+    })(req, res, next);
+  },
   handleOAuthCallback
 );
 
