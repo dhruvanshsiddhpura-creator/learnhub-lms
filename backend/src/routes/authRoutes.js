@@ -44,7 +44,7 @@ router.post('/disconnect/:provider', protect, disconnectProvider);
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'], session: false }));
 router.get(
   '/google/callback',
-  passport.authenticate('google', { session: false, failureRedirect: 'http://localhost:5173/login?error=Google authentication failed' }),
+  passport.authenticate('google', { session: false, failureRedirect: `${process.env.CLIENT_URL || 'http://localhost:5173'}/login?error=Google authentication failed` }),
   handleOAuthCallback
 );
 
@@ -52,7 +52,7 @@ router.get(
 router.get('/facebook', passport.authenticate('facebook', { scope: ['email'], session: false }));
 router.get(
   '/facebook/callback',
-  passport.authenticate('facebook', { session: false, failureRedirect: 'http://localhost:5173/login?error=Facebook authentication failed' }),
+  passport.authenticate('facebook', { session: false, failureRedirect: `${process.env.CLIENT_URL || 'http://localhost:5173'}/login?error=Facebook authentication failed` }),
   handleOAuthCallback
 );
 
@@ -60,7 +60,7 @@ router.get(
 router.get('/github', passport.authenticate('github', { scope: ['user:email'], session: false }));
 router.get(
   '/github/callback',
-  passport.authenticate('github', { session: false, failureRedirect: 'http://localhost:5173/login?error=GitHub authentication failed' }),
+  passport.authenticate('github', { session: false, failureRedirect: `${process.env.CLIENT_URL || 'http://localhost:5173'}/login?error=GitHub authentication failed` }),
   handleOAuthCallback
 );
 

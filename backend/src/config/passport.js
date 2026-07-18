@@ -10,7 +10,7 @@ dotenv.config();
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID || 'mock_google_id_123',
     clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'mock_google_secret_123',
-    callbackURL: 'http://localhost:5000/api/auth/google/callback',
+    callbackURL: `${process.env.RENDER_EXTERNAL_URL || 'http://localhost:5000'}/api/auth/google/callback`,
     passReqToCallback: true,
   },
   async (req, accessToken, refreshToken, profile, done) => {
@@ -40,7 +40,7 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID || 'mock_facebook_id_123',
     clientSecret: process.env.FACEBOOK_APP_SECRET || 'mock_facebook_secret_123',
-    callbackURL: 'http://localhost:5000/api/auth/facebook/callback',
+    callbackURL: `${process.env.RENDER_EXTERNAL_URL || 'http://localhost:5000'}/api/auth/facebook/callback`,
     profileFields: ['id', 'displayName', 'emails', 'photos'],
     passReqToCallback: true,
   },
@@ -67,7 +67,7 @@ passport.use(new FacebookStrategy({
 passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID || 'mock_github_id_123',
     clientSecret: process.env.GITHUB_CLIENT_SECRET || 'mock_github_secret_123',
-    callbackURL: 'http://localhost:5000/api/auth/github/callback',
+    callbackURL: `${process.env.RENDER_EXTERNAL_URL || 'http://localhost:5000'}/api/auth/github/callback`,
     passReqToCallback: true,
   },
   async (req, accessToken, refreshToken, profile, done) => {

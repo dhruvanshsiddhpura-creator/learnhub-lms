@@ -220,7 +220,7 @@ export const handleOAuthCallback = async (req, res) => {
         data: updateData,
       });
 
-      return res.redirect('http://localhost:5173/dashboard?connect_status=success');
+      return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/dashboard?connect_status=success`);
     }
 
     // LOGIN/REGISTRATION FLOW
@@ -285,7 +285,7 @@ export const handleOAuthCallback = async (req, res) => {
     });
 
     // Redirect user to the frontend login route which extracts the credentials
-    res.redirect(`http://localhost:5173/login?token=${accessToken}&refreshToken=${refreshToken}`);
+    res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/login?token=${accessToken}&refreshToken=${refreshToken}`);
   } catch (error) {
     console.error('OAuth Callback Controller Error:', error);
     
@@ -293,16 +293,16 @@ export const handleOAuthCallback = async (req, res) => {
     if (error.code === 'P2002') {
       const providerName = oAuthUser.provider.charAt(0).toUpperCase() + oAuthUser.provider.slice(1);
       if (connectUserId) {
-        return res.redirect(`http://localhost:5173/dashboard?connect_status=error&message=This ${providerName} profile is already linked to another account.`);
+        return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/dashboard?connect_status=error&message=This ${providerName} profile is already linked to another account.`);
       } else {
-        return res.redirect(`http://localhost:5173/login?error=This ${providerName} profile is already linked to another account.`);
+        return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/login?error=This ${providerName} profile is already linked to another account.`);
       }
     }
     
     if (connectUserId) {
-      return res.redirect('http://localhost:5173/dashboard?connect_status=error&message=Server error linking account.');
+      return res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/dashboard?connect_status=error&message=Server error linking account.`);
     }
-    res.redirect('http://localhost:5173/login?error=OAuth integration server error.');
+    res.redirect(`${process.env.CLIENT_URL || 'http://localhost:5173'}/login?error=OAuth authentication failed.`);
   }
 };
 
