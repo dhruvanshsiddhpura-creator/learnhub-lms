@@ -85,14 +85,14 @@
   --scrollbar-thumb-hover: #98bdff;
 
   /* Overrides for hardcoded white text in light theme */
-  & :where(h1, h2, h3, h4, p, span, label, div, .glass-input).text-white:not(.bg-primary-600):not(.bg-indigo-600):not(.bg-emerald-600):not(.bg-gradient-brand):not(button) {
+  & :where(h1, h2, h3, h4, p, span, label, div, button, a, .glass-input).text-white:not([class*="bg-primary"]):not([class*="bg-indigo"]):not([class*="bg-emerald"]):not([class*="bg-red"]):not([class*="bg-blue"]):not([class*="bg-gradient"]) {
     color: var(--theme-dark-50) !important;
   }
   
-  /* Ensure sidebar active items still look good if they use text-white but no background color directly on the text element */
-  & .bg-primary-600 .text-white,
-  & .bg-indigo-600 .text-white,
-  & .bg-gradient-brand .text-white {
+  /* Ensure colored background elements keep white text */
+  & [class*="bg-primary"] .text-white,
+  & [class*="bg-indigo"] .text-white,
+  & [class*="bg-gradient"] .text-white {
     color: #ffffff !important;
   }
 }
