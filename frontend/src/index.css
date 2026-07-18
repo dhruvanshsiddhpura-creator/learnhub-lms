@@ -43,18 +43,18 @@
 }
 
 .light-theme {
-  /* LIGHT THEME (ELECTRIC BLUE & WHITE) */
-  --theme-primary-50: #eff6ff;
-  --theme-primary-100: #dbeafe;
-  --theme-primary-200: #bfdbfe;
-  --theme-primary-300: #93c5fd;
-  --theme-primary-400: #60a5fa;
-  --theme-primary-500: #3b82f6;
-  --theme-primary-600: #2563eb;
-  --theme-primary-700: #1d4ed8;
-  --theme-primary-800: #1e40af;
-  --theme-primary-900: #1e3a8a;
-  --theme-primary-950: #172554;
+  /* LIGHT THEME (CUSTOM PALETTE) */
+  --theme-primary-50: #f0f4ff;
+  --theme-primary-100: #dce7ff;
+  --theme-primary-200: #b5ceff;
+  --theme-primary-300: #98bdff;
+  --theme-primary-400: #7da0fa;
+  --theme-primary-500: #7978e9;
+  --theme-primary-600: #4b49ac;
+  --theme-primary-700: #3a3888;
+  --theme-primary-800: #2a2966;
+  --theme-primary-900: #1a1944;
+  --theme-primary-950: #0d0c22;
 
   --theme-dark-50: #1a202c;
   --theme-dark-100: #1e293b;

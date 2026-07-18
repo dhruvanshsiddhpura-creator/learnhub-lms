@@ -90,13 +90,17 @@ const Dashboard = () => {
   const [actionLoadingId, setActionLoadingId] = useState(null);
   const [createLoading, setCreateLoading] = useState(false);
   const { addToast } = useToast();
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return localStorage.getItem('theme') !== 'light';
+  });
 
   useEffect(() => {
     if (isDarkMode) {
-      document.documentElement.classList.add('dark');
+      document.body.classList.remove('light-theme');
+      localStorage.setItem('theme', 'dark');
     } else {
-      document.documentElement.classList.remove('dark');
+      document.body.classList.add('light-theme');
+      localStorage.setItem('theme', 'light');
     }
   }, [isDarkMode]);
 
