@@ -5,8 +5,10 @@ import { connectSocket, disconnectSocket } from '../api/socketService';
 const AuthContext = createContext(null);
 
 // Configure axios base URL
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 export const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: API_URL,
 });
 
 export const AuthProvider = ({ children }) => {
@@ -46,7 +48,7 @@ export const AuthProvider = ({ children }) => {
           const refreshToken = localStorage.getItem('refreshToken');
           if (refreshToken) {
             try {
-              const res = await axios.post('http://localhost:5000/api/auth/refresh', { refreshToken });
+              const res = await axios.post(`${API_URL}/auth/refresh`, { refreshToken });
               const { token: newAccessToken, refreshToken: newRefreshToken } = res.data;
               localStorage.setItem('token', newAccessToken);
               localStorage.setItem('refreshToken', newRefreshToken);
@@ -86,7 +88,7 @@ export const AuthProvider = ({ children }) => {
           
           if (refreshToken) {
             try {
-              const res = await axios.post('http://localhost:5000/api/auth/refresh', { refreshToken });
+              const res = await axios.post(`${API_URL}/auth/refresh`, { refreshToken });
               const { token: newAccessToken, refreshToken: newRefreshToken } = res.data;
               
               localStorage.setItem('token', newAccessToken);

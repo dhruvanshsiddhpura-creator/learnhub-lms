@@ -244,9 +244,9 @@ const ChatHelp = ({ classroomId }) => {
                         {msg.fileUrl && (
                           <div className="mb-2">
                             {msg.fileType === 'IMAGE' ? (
-                              <img src={`http://localhost:5000/${msg.fileUrl.replace(/\\/g, '/')}`} alt="attachment" className="rounded-lg max-w-full h-auto max-h-48 object-cover" />
+                              <img src={`${import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:5000'}/${msg.fileUrl.replace(/\\/g, '/')}`} alt="attachment" className="rounded-lg max-w-full h-auto max-h-48 object-cover" />
                             ) : (
-                              <a href={`http://localhost:5000/${msg.fileUrl.replace(/\\/g, '/')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 underline text-sm bg-black/10 p-2 rounded">
+                              <a href={`${import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:5000'}/${msg.fileUrl.replace(/\\/g, '/')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 underline text-sm bg-black/10 p-2 rounded">
                                 <Paperclip className="w-4 h-4" /> Download Attachment
                               </a>
                             )}

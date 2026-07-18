@@ -65,7 +65,8 @@ const Login = () => {
   const handleOAuthRedirect = (provider) => {
     setError('');
     setOauthLoading(true);
-    window.location.href = `http://localhost:5000/api/auth/${provider}`;
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    window.location.href = `${baseUrl}/auth/${provider}`;
   };
 
   return (

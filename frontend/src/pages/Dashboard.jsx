@@ -272,7 +272,8 @@ const Dashboard = () => {
   // Handle Connecting an Account
   const handleConnectProvider = (provider) => {
     triggerAlert(`Redirecting to connect ${provider}...`);
-    window.location.href = `http://localhost:5000/api/auth/connect/${provider}?token=${localStorage.getItem('token')}`;
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    window.location.href = `${baseUrl}/auth/connect/${provider}?token=${localStorage.getItem('token')}`;
   };
 
   // Handle Disconnecting an Account
