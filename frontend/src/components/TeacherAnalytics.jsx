@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Legend } from 'recharts';
 import { Users, CheckCircle, BarChart2, TrendingUp } from 'lucide-react';
-import api from '../api/axios';
+import { api } from "../context/AuthContext";
 
 const TeacherAnalytics = () => {
   const [data, setData] = useState(null);

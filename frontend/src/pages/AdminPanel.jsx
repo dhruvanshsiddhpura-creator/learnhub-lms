@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Layers, ShieldAlert, BookOpen, Trash2, Shield, Activity, Megaphone, Send } from 'lucide-react';
-import api from '../api/axios';
-import { useToast } from './Toast';
+import { api } from "../context/AuthContext";
+import { useToast } from '../components/Toast';
 
 const AdminPanel = () => {
   const [stats, setStats] = useState(null);
