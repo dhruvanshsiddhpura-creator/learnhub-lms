@@ -161,7 +161,7 @@ const DoubtThread = ({ doubt, classroomId }) => {
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
                   placeholder="Write a helpful reply..."
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none"
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none resize-none"
                   rows="2"
                 />
               </div>
@@ -215,7 +215,7 @@ const DoubtForum = ({ classroomId }) => {
             placeholder="Search doubts..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none shadow-sm text-sm"
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none shadow-sm text-sm text-gray-900"
           />
         </div>
         
@@ -258,7 +258,7 @@ const DoubtForum = ({ classroomId }) => {
                   value={newTitle}
                   onChange={e => setNewTitle(e.target.value)}
                   placeholder="e.g. How does Array.reduce work?"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-orange-500 outline-none"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none"
                   required
                 />
               </div>
@@ -268,7 +268,7 @@ const DoubtForum = ({ classroomId }) => {
                   value={newContent}
                   onChange={e => setNewContent(e.target.value)}
                   placeholder="Provide context or code snippets..."
-                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-orange-500 outline-none resize-y min-h-[120px]"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:ring-2 focus:ring-orange-500 outline-none resize-y min-h-[120px]"
                   required
                 />
               </div>

@@ -1,68 +1,152 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
-@theme {
-  --color-primary-50: #f5f3ff;
-  --color-primary-100: #ede9fe;
-  --color-primary-200: #ddd6fe;
-  --color-primary-300: #c4b5fd;
-  --color-primary-400: #a78bfa;
-  --color-primary-500: #8b5cf6;
-  --color-primary-600: #7c3aed;
-  --color-primary-700: #6d28d9;
-  --color-primary-800: #5b21b6;
-  --color-primary-900: #4c1d95;
-  --color-primary-950: #2e1065;
+:root {
+  /* DARK THEME (DEFAULT) */
+  --theme-primary-50: #f5f3ff;
+  --theme-primary-100: #ede9fe;
+  --theme-primary-200: #ddd6fe;
+  --theme-primary-300: #c4b5fd;
+  --theme-primary-400: #a78bfa;
+  --theme-primary-500: #8b5cf6;
+  --theme-primary-600: #7c3aed;
+  --theme-primary-700: #6d28d9;
+  --theme-primary-800: #5b21b6;
+  --theme-primary-900: #4c1d95;
+  --theme-primary-950: #2e1065;
 
-  --color-dark-50: #f8fafc;
-  --color-dark-100: #f1f5f9;
-  --color-dark-200: #e2e8f0;
-  --color-dark-300: #cbd5e1;
-  --color-dark-400: #94a3b8;
-  --color-dark-500: #64748b;
-  --color-dark-600: #475569;
-  --color-dark-700: #334155;
-  --color-dark-800: #1e293b;
-  --color-dark-900: #0f172a;
-  --color-dark-950: #020617;
+  --theme-dark-50: #f8fafc;
+  --theme-dark-100: #f1f5f9;
+  --theme-dark-200: #e2e8f0;
+  --theme-dark-300: #cbd5e1;
+  --theme-dark-400: #94a3b8;
+  --theme-dark-500: #64748b;
+  --theme-dark-600: #475569;
+  --theme-dark-700: #334155;
+  --theme-dark-800: #1e293b;
+  --theme-dark-900: #0f172a;
+  --theme-dark-950: #020617;
+
+  /* Glassmorphism defaults (Dark) */
+  --glass-panel-bg: rgba(15, 23, 42, 0.65);
+  --glass-panel-border: rgba(51, 65, 85, 0.4);
+  --glass-card-bg: rgba(15, 23, 42, 0.35);
+  --glass-card-border: rgba(51, 65, 85, 0.25);
+  --glass-card-hover-bg: rgba(15, 23, 42, 0.5);
+  --glass-card-hover-border: rgba(139, 92, 246, 0.4);
+  --glass-input-bg: rgba(2, 6, 23, 0.4);
+  --glass-input-border: rgba(51, 65, 85, 0.5);
+  
+  --scrollbar-track: rgba(2, 6, 23, 0.5);
+  --scrollbar-thumb: rgba(51, 65, 85, 0.8);
+  --scrollbar-thumb-hover: rgba(139, 92, 246, 0.8);
+}
+
+.light-theme {
+  /* LIGHT THEME (ELECTRIC BLUE & WHITE) */
+  --theme-primary-50: #eff6ff;
+  --theme-primary-100: #dbeafe;
+  --theme-primary-200: #bfdbfe;
+  --theme-primary-300: #93c5fd;
+  --theme-primary-400: #60a5fa;
+  --theme-primary-500: #3b82f6;
+  --theme-primary-600: #2563eb;
+  --theme-primary-700: #1d4ed8;
+  --theme-primary-800: #1e40af;
+  --theme-primary-900: #1e3a8a;
+  --theme-primary-950: #172554;
+
+  --theme-dark-50: #1a202c;
+  --theme-dark-100: #1e293b;
+  --theme-dark-200: #334155;
+  --theme-dark-300: #475569;
+  --theme-dark-400: #64748b;
+  --theme-dark-500: #94a3b8;
+  --theme-dark-600: #cbd5e1;
+  --theme-dark-700: #e2e8f0;
+  --theme-dark-800: #f1f5f9;
+  --theme-dark-900: #f8fafc;
+  --theme-dark-950: #ffffff;
+
+  /* Glassmorphism Light */
+  --glass-panel-bg: rgba(255, 255, 255, 0.85);
+  --glass-panel-border: rgba(226, 232, 240, 0.8);
+  --glass-card-bg: rgba(255, 255, 255, 0.6);
+  --glass-card-border: rgba(226, 232, 240, 0.9);
+  --glass-card-hover-bg: rgba(255, 255, 255, 0.95);
+  --glass-card-hover-border: rgba(37, 99, 235, 0.4);
+  --glass-input-bg: rgba(248, 250, 252, 0.9);
+  --glass-input-border: rgba(203, 213, 225, 0.8);
+
+  --scrollbar-track: rgba(241, 245, 249, 0.5);
+  --scrollbar-thumb: rgba(148, 163, 184, 0.5);
+  --scrollbar-thumb-hover: rgba(37, 99, 235, 0.8);
+}
+
+@theme {
+  --color-primary-50: var(--theme-primary-50);
+  --color-primary-100: var(--theme-primary-100);
+  --color-primary-200: var(--theme-primary-200);
+  --color-primary-300: var(--theme-primary-300);
+  --color-primary-400: var(--theme-primary-400);
+  --color-primary-500: var(--theme-primary-500);
+  --color-primary-600: var(--theme-primary-600);
+  --color-primary-700: var(--theme-primary-700);
+  --color-primary-800: var(--theme-primary-800);
+  --color-primary-900: var(--theme-primary-900);
+  --color-primary-950: var(--theme-primary-950);
+
+  --color-dark-50: var(--theme-dark-50);
+  --color-dark-100: var(--theme-dark-100);
+  --color-dark-200: var(--theme-dark-200);
+  --color-dark-300: var(--theme-dark-300);
+  --color-dark-400: var(--theme-dark-400);
+  --color-dark-500: var(--theme-dark-500);
+  --color-dark-600: var(--theme-dark-600);
+  --color-dark-700: var(--theme-dark-700);
+  --color-dark-800: var(--theme-dark-800);
+  --color-dark-900: var(--theme-dark-900);
+  --color-dark-950: var(--theme-dark-950);
 }
 
 body {
   font-family: 'Outfit', 'Inter', sans-serif;
   @apply bg-dark-950 text-dark-50 antialiased min-h-screen overflow-x-hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Custom Glassmorphism Classes */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.65);
+  background: var(--glass-panel-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(51, 65, 85, 0.4);
+  border: 1px solid var(--glass-panel-border);
+  transition: all 0.3s ease;
 }
 
 .glass-card {
-  background: rgba(15, 23, 42, 0.35);
+  background: var(--glass-card-bg);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(51, 65, 85, 0.25);
+  border: 1px solid var(--glass-card-border);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-card:hover {
-  border-color: rgba(139, 92, 246, 0.4);
-  background: rgba(15, 23, 42, 0.5);
+  border-color: var(--glass-card-hover-border);
+  background: var(--glass-card-hover-bg);
   transform: translateY(-2px);
 }
 
 .glass-input {
-  background: rgba(2, 6, 23, 0.4);
-  border: 1px solid rgba(51, 65, 85, 0.5);
-  @apply focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all duration-200 outline-none;
+  background: var(--glass-input-bg);
+  border: 1px solid var(--glass-input-border);
+  @apply focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-all duration-200 outline-none text-dark-50;
 }
 
 /* Custom Gradients */
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-400 via-primary-300 to-indigo-300;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-indigo-500;
 }
 
 .bg-gradient-brand {
@@ -76,14 +160,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(2, 6, 23, 0.5);
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(51, 65, 85, 0.8);
+  background: var(--scrollbar-thumb);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 92, 246, 0.8);
+  background: var(--scrollbar-thumb-hover);
 }

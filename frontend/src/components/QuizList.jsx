@@ -241,7 +241,7 @@ const QuizList = ({ classroomId }) => {
                     value={form.title}
                     onChange={e => setForm({...form, title: e.target.value})}
                     placeholder="e.g. Chapter 3 Assessment"
-                    className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-gray-900 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
                   />
                 </div>
                 <div>
@@ -250,7 +250,7 @@ const QuizList = ({ classroomId }) => {
                     value={form.description}
                     onChange={e => setForm({...form, description: e.target.value})}
                     placeholder="Brief description for students..."
-                    className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 outline-none text-sm resize-none"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-gray-900 focus:ring-2 focus:ring-indigo-500 outline-none text-sm resize-none"
                     rows="2"
                   />
                 </div>
@@ -263,7 +263,7 @@ const QuizList = ({ classroomId }) => {
                       value={form.timeLimit}
                       onChange={e => setForm({...form, timeLimit: e.target.value})}
                       placeholder="No limit"
-                      className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
+                      className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-gray-900 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
                     />
                   </div>
                   <div>
@@ -274,7 +274,7 @@ const QuizList = ({ classroomId }) => {
                       max="100"
                       value={form.passingScore}
                       onChange={e => setForm({...form, passingScore: parseInt(e.target.value)})}
-                      className="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
+                      className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-gray-900 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
                     />
                   </div>
                 </div>

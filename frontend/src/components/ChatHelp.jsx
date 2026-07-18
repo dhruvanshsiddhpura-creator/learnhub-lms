@@ -288,7 +288,7 @@ const ChatHelp = ({ classroomId }) => {
                     value={messageText}
                     onChange={handleTypingStart}
                     placeholder="Type a message..."
-                    className="flex-1 max-h-32 p-3 outline-none resize-none bg-transparent"
+                    className="flex-1 max-h-32 p-3 outline-none resize-none bg-transparent text-gray-900"
                     rows="1"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && !e.shiftKey) {
