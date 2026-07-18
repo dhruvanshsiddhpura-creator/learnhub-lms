@@ -90,19 +90,19 @@ const Dashboard = () => {
   const [actionLoadingId, setActionLoadingId] = useState(null);
   const [createLoading, setCreateLoading] = useState(false);
   const { addToast } = useToast();
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    return localStorage.getItem('theme') !== 'light';
+  const [isBrandTheme, setIsBrandTheme] = useState(() => {
+    return localStorage.getItem('theme') === 'brand';
   });
 
   useEffect(() => {
-    if (isDarkMode) {
-      document.body.classList.remove('light-theme');
-      localStorage.setItem('theme', 'dark');
+    if (isBrandTheme) {
+      document.body.classList.add('brand-theme');
+      localStorage.setItem('theme', 'brand');
     } else {
-      document.body.classList.add('light-theme');
-      localStorage.setItem('theme', 'light');
+      document.body.classList.remove('brand-theme');
+      localStorage.setItem('theme', 'default');
     }
-  }, [isDarkMode]);
+  }, [isBrandTheme]);
 
   const triggerAlert = (message, type = 'success') => {
     addToast(message, type);
@@ -304,7 +304,7 @@ const Dashboard = () => {
   );
 
   return (
-    <div className={`min-h-screen flex ${isDarkMode ? 'bg-dark-950 text-dark-50' : 'bg-gray-50 text-gray-900'}`}>
+    <div className="min-h-screen flex text-dark-50">
       {/* SIDEBAR NAVIGATION */}
       <aside className="w-64 bg-dark-900 border-r border-dark-800/80 flex flex-col justify-between shrink-0 hidden md:flex">
         <div className="p-6 space-y-8">
@@ -493,15 +493,15 @@ const Dashboard = () => {
         {/* Footer Settings */}
         <div className="p-6 border-t border-dark-800/80 space-y-4">
           <button
-            onClick={() => setIsDarkMode(!isDarkMode)}
+            onClick={() => setIsBrandTheme(!isBrandTheme)}
             className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold text-dark-400 hover:bg-dark-800/40 transition-all hover:text-white"
           >
             <div className="flex items-center gap-3">
-              {isDarkMode ? <Moon size={18} /> : <Sun size={18} />}
+              {isBrandTheme ? <Moon size={18} /> : <Sun size={18} />}
               Theme
             </div>
             <div className="w-8 h-4 rounded-full bg-dark-700 relative">
-              <div className={`w-3 h-3 rounded-full bg-white absolute top-0.5 transition-all ${isDarkMode ? 'right-0.5' : 'left-0.5'}`} />
+              <div className={`w-3 h-3 rounded-full bg-white absolute top-0.5 transition-all ${isBrandTheme ? 'right-0.5' : 'left-0.5'}`} />
             </div>
           </button>
           

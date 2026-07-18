@@ -209,9 +209,9 @@ const ChatHelp = ({ classroomId }) => {
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col bg-white">
+      <div className="flex-1 flex flex-col bg-dark-950">
         {!activeChatTarget ? (
-          <div className="flex-1 flex items-center justify-center text-gray-400">
+          <div className="flex-1 flex items-center justify-center text-dark-400">
             Select a student to start chatting
           </div>
         ) : (
